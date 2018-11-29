@@ -1,10 +1,8 @@
-# xhprof.io GUI
+# Профилирование через xhprof
+# Профилирование через xhprof
+<p>Ставим приблуду https://tideways.com/profiler/xhprof-for-php7</p> 
 
-<h1>Профилирование через xhprof</h1>
-<Br/><Br/>
-<div>Ставим приблуду https://tideways.com/profiler/xhprof-for-php7</div> 
-<div>
-{{{$ yum install gcc
+<code>$ yum install gcc
 $ yum install php-devel
 $ git clone https://github.com/tideways/php-profiler-extension.git
 $ cd php-profiler-extension
@@ -12,53 +10,51 @@ $ phpize
 $ ./configure
 $ make
 $ sudo make install
-}}}
-</div>
+</code>
 
-<div>Модуль подключаем в php.d</div>
 
-{{{extension=tideways_xhprof.so
-}}}
+<p>Модуль подключаем в php.d</p>
 
-<div>Не забываем включить модули PDO и PDO MySQL</div>
-{{{mv 20-pdo.ini.disabled 20-pdo.ini
+<code>extension=tideways_xhprof.so
+</code>
+
+<p>Не забываем включить модули PDO и PDO MySQL</p>
+<code>mv 20-pdo.ini.disabled 20-pdo.ini
 mv 30-pdo_mysql.ini.disabled 30-pdo_mysql.ini
-}}}
+</code>
 
-<div>Отладка с помощью GET параметра</div>
-{{{ay[debug]=1}}}
+<p>Отладка с помощью GET параметра</p>
+<code>ay[debug]=1</code>
 
-<div>Ставим аналитику отсюда в подпапку сайта</div>
+<p>Ставим аналитику отсюда в подпапку сайта</p>
 
-{{{https://github.com/itsfera/xhprof.io.git}}}
+<code>https://github.com/itsfera/xhprof.io.git</code>
 
-<div>Накатываем sql из папки, правим config.inc.php, прописываем параметры. </div>
-{{{<?php
+<p>Накатываем sql из папки, правим config.inc.php, прописываем параметры. </p>
+<code>
+	<?php
 return array(
 	'url_base' => 'https://lks-dev.mirea.ru/xhprof/',
 	'url_static' => null, // When undefined, it defaults to $config['url_base'] . 'public/'. This should be absolute URL.
 	'pdo' => new PDO('mysql:dbname=sitemanager;host=localhost;charset=utf8', 'bitrix0', '6-tnqTbB-NWrpEuCX8UR'),
-);}}}
+);
+</code>
 
-<div>Если используется mysqli, то прописываем в php.ini</div> 
-{{{pdo_mysql.default_socket=/var/lib/mysqld/mysqld.sock}}}
+<p>Если используется mysqli, то прописываем в php.ini</p> 
+<code>pdo_mysql.default_socket=/var/lib/mysqld/mysqld.sock</code>
 
 
-<div>Ребутаем апача. В нужный скрипт перед шапкой:</div>
+<p>Ребутаем апача. В нужный скрипт перед шапкой:</p>
 
-{{{ tideways_xhprof_enable(TIDEWAYS_XHPROF_FLAGS_MEMORY | TIDEWAYS_XHPROF_FLAGS_CPU);
-}}}
+<code> tideways_xhprof_enable(TIDEWAYS_XHPROF_FLAGS_MEMORY | TIDEWAYS_XHPROF_FLAGS_CPU);
+</code>
 
-<div>и в конце (пример)</div>
+<p>и в конце (пример)</p>
 
-{{{$xhprof_data = tideways_xhprof_disable();	
+<code>$xhprof_data = tideways_xhprof_disable();	
 $config			= require $_SERVER["DOCUMENT_ROOT"].'/xdebug/xhprof/includes/config.inc.php';	
 require_once $_SERVER["DOCUMENT_ROOT"].'/xdebug/xhprof/classes/data.php';	
 $xhprof_data_obj	= new \ay\xhprof\Data($config['pdo']);
 $xhprof_data_obj->save($xhprof_data);
-}}}
-
-[[Категория:Backend]]
-
-
+</code>
 
