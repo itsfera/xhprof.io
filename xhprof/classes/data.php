@@ -88,10 +88,12 @@ class Data
 	    // The data input will never change. Therefore,
 	    // I arrange all the values manually.
 	    
-	    if($request['callstack'][0]['caller'] !== NULL)
+	    /*
+		if($request['callstack'][0]['caller'] !== NULL)
 	    {
 		    throw new DataException('Data order does not follow the suit. Mother entry is expected to be the first in the callstack.');
 	    }
+		*/
 	    
 	    $request['total']		= array
 	    (
